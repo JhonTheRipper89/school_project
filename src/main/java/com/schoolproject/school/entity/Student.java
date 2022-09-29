@@ -24,6 +24,7 @@ import java.util.List;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "student_id")
     private Long id;
     private String name;
     @Column(name = "last_name")
@@ -33,6 +34,14 @@ public class Student {
             nullable = false
     )
     private String emailAddress;
-    @ManyToMany(mappedBy = "students", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Subject> subject;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "tbl_student_subject",
+            joinColumns = {
+                    @JoinColumn(name = "student_fk", referencedColumnName = "student_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "subject_fk", referencedColumnName = "subject_id")
+            }
+    )
+    private List<Subject> subjectList;
 }

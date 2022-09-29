@@ -17,6 +17,7 @@ import java.util.Date;
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "evaluation_id")
     private Long id;
     private Double score;
     private Date timeStamp;

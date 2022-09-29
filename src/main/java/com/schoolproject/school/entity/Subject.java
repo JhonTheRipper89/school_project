@@ -18,8 +18,9 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "subject_id")
     private Long id;
     private String name;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Student> students;
+    @ManyToMany(mappedBy = "subjectList",fetch = FetchType.LAZY)
+    private List<Student> studentList;
 }
