@@ -13,16 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tbl_subject")
-public class Subject {
-
+@Table(name = "tbl_student_subject")
+public class StudentSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "subject_id")
+    @Column(name = "student_subject_id")
     private Long id;
-    private String name;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User student;
+
+    @ManyToOne
     @JoinColumn(name = "subject_id")
-    private List<StudentSubject> studentSubjects;
+    private Subject subject;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_subject_id")
+    private List<Evaluation> evaluationList;
 }
