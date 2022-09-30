@@ -20,7 +20,8 @@ public class Role {
     @Column(name = "role_id")
     private Long id;
     private String name;
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private List<User> userList;
 }

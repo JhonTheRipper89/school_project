@@ -22,7 +22,7 @@ public class Subject {
     private Long id;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id")
     private List<StudentSubject> studentSubjects;
 }
