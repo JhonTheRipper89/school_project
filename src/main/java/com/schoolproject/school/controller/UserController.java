@@ -1,7 +1,6 @@
 package com.schoolproject.school.controller;
 
 import com.schoolproject.school.entity.User;
-import com.schoolproject.school.items.UserItem;
 import com.schoolproject.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +19,12 @@ public class UserController {
     }
 
     @PostMapping
-    public void addUser(@RequestBody UserItem user){
-        System.out.println("AQUIIIIII");
+    public void addUser(@RequestBody User user){
         userService.add(user);
     }
 
     @DeleteMapping(path = "userId")
-    public void deleteUser(@PathVariable Long userId){
+    public void deleteUser(@PathVariable int userId){
         userService.delete(userId);
     }
 }
