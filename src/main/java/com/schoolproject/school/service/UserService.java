@@ -1,12 +1,8 @@
 package com.schoolproject.school.service;
 
-import com.schoolproject.school.entity.Role;
 import com.schoolproject.school.entity.User;
-import com.schoolproject.school.items.Pdo;
-import com.schoolproject.school.repository.RoleRepository;
 import com.schoolproject.school.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
