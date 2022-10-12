@@ -1,8 +1,12 @@
 package com.schoolproject.school.controller;
 
-import com.schoolproject.school.entity.User;
+import com.schoolproject.school.docs.UserDoc;
+import com.schoolproject.school.dtos.SaveUserDto;
+import com.schoolproject.school.dtos.UpdateUserDto;
 import com.schoolproject.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,17 +18,22 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<User> get(){
-        return userService.show();
+    public ResponseEntity<List<UserDoc>> get(){
+        return new ResponseEntity<>(userService.find(), HttpStatus.OK);
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user){
-        userService.add(user);
+    public ResponseEntity<UserDoc> addUser(@RequestBody SaveUserDto user){
+        return new ResponseEntity<>(userService.add(user), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "userId")
-    public void deleteUser(@PathVariable int userId){
-        userService.delete(userId);
+    @GetMapping( path = "/{userId}")
+    public ResponseEntity<UserDoc> findById(@PathVariable int userId){
+        return new ResponseEntity<>(userService.findById(userId), HttpStatus.FOUND);
+    }
+
+    @PatchMapping( path = "/{userId}")
+    public ResponseEntity<UserDoc> update(@PathVariable int userId, @RequestBody UpdateUserDto userDto){
+        return new ResponseEntity<>(userService.update(userId, userDto), HttpStatus.ACCEPTED);
     }
 }
