@@ -16,9 +16,9 @@ import java.util.List;
 @Table(name = "tbl_student_subject")
 public class StudentSubject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_subject_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,7 +28,7 @@ public class StudentSubject {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_subject_id")
     private List<Evaluation> evaluationList;
 }

@@ -8,5 +8,5 @@ import com.schoolproject.school.entities.Subject;
 import java.io.Serializable;
 
 @Repository
-public interface SubjectRepository extends JpaRepository<Subject, Serializable> {
+public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 }

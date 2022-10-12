@@ -16,13 +16,13 @@ import java.util.Date;
 @Table(name = "tbl_evaluation")
 public class Evaluation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "evaluation_id")
-    private Long id;
+    private Integer id;
     private Double score;
     private Date timeStamp;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_subject_id")
     private StudentSubject studentSubject;
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 
 @Repository
-public interface EvaluationRepository extends JpaRepository<Evaluation, Serializable> {
+public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> {
 }
