@@ -21,4 +21,8 @@ public class Evaluation {
     private Long id;
     private Double score;
     private Date timeStamp;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_subject_id")
+    private StudentSubject studentSubject;
 }
