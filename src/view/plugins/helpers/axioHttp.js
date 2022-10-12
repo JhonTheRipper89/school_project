@@ -1,5 +1,5 @@
 const axioHttp = () => {
-  const customFetch = (endpoint, options) => {
+  const customFetch = async (endpoint, options) => {
     const defaultHeader = {
       accept: "application/json",
     }
@@ -14,17 +14,19 @@ const axioHttp = () => {
     if (!options.body) delete options.body;
 
     setTimeout(() => controller.abort(), 3000);
-    return fetch(endpoint, options)
-      .then((res) =>
+    try {
+      const res = await fetch(endpoint, options);
+      return await (
         res.ok
           ? res.json()
           : Promise.reject({
-              err: true,
-              status: res.status || "00",
-              statusText: res.statusText || "An error has occurred",
-            })
-      )
-      .catch((err) => err);
+            err: true,
+            status: res.status || "00",
+            statusText: res.statusText || "An error has occurred",
+          }));
+    } catch (err) {
+      return err;
+    }
   }
 
   const get = (url, options = {}) => customFetch(url, options);

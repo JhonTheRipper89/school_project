@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(path = "api/v1/Auth/login")
+@RequestMapping(path = "api/v1/auth/login")
 public class AuthController {
   @Autowired
     AuthService userService;
