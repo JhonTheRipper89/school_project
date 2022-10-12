@@ -1,4 +1,4 @@
-export const axioHttp = () => {
+const axioHttp = () => {
   const customFetch = (endpoint, options) => {
     const defaultHeader = {
       accept: "application/json",
