@@ -18,7 +18,7 @@ class RoleRepositoryTest {
     public void add(){
         Role role;
         role= Role.builder()
-                .name("Student")
+                .name("Professor")
                 .build();
         roleRepository.save(role);
     }

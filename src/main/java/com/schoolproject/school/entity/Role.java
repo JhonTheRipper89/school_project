@@ -21,7 +21,4 @@ public class Role {
     private Integer id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-    private List<User> userList;
 }
