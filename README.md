@@ -1,4 +1,4 @@
-# Spting Boot School Project
+# Spring Boot School Project
 
 ## Dependencies
 
