@@ -1,7 +1,6 @@
 package com.schoolproject.school.docs;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
@@ -12,4 +11,5 @@ public class UserDoc {
     String role;
     Integer roleId;
     String emailAddress;
+    String password;
 }

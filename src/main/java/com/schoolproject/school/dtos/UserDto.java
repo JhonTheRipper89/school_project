@@ -1,16 +1,17 @@
 package com.schoolproject.school.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateUserDto {
+public class UserDto {
+     Integer userId;
      String name;
      String lastName;
+     String role;
+     Integer roleId;
      String emailAddress;
+     String password;
 }

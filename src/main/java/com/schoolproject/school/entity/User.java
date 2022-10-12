@@ -25,6 +25,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer id;
+
+    @Column(name = "name")
     private String name;
 
     @Column(name = "last_name")
@@ -35,11 +37,11 @@ public class User {
             nullable = false
     )
     private String emailAddress;
+    private String password;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<StudentSubject> studentSubject;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
     private Role role;

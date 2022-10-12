@@ -4,7 +4,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class SubjectDoc{
-  Integer subject_id;
-  String name;
+public class RolDoc {
+    Integer rolId;
+    String name;
 }

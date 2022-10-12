@@ -1,14 +1,11 @@
 package com.schoolproject.school.service;
 
 import com.schoolproject.school.docs.UserDoc;
-import com.schoolproject.school.dtos.SaveUserDto;
-import com.schoolproject.school.dtos.UpdateUserDto;
-import com.schoolproject.school.entity.Role;
-import com.schoolproject.school.entity.User;
-import com.schoolproject.school.repository.RoleRepository;
-import com.schoolproject.school.repository.UserRepository;
+import com.schoolproject.school.dtos.UserDto;
+import com.schoolproject.school.entity.*;
+import com.schoolproject.school.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,12 +14,13 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
 
-    public List<UserDoc> find() {
+    public List<UserDoc> allUsers() {
         List<User> users = userRepository.findAll();
         List<UserDoc> userDocs = new ArrayList<>();
 
@@ -40,16 +38,29 @@ public class UserService {
         return userDocs;
     }
 
-    public UserDoc add(SaveUserDto userDto) {
-        Role role = roleRepository.findById(userDto.getRoleId()).orElse(null);
-        if(role == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found");
-        }
+    public UserDoc getById(int userId) {
+        User user = userRepository.findUserById(userId).orElse(null);
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+        return UserDoc.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .lastName(user.getLastName())
+                .role(user.getRole().getName())
+                .roleId(user.getRole().getId())
+                .emailAddress(user.getEmailAddress())
+                .build();
+    }
+
+    public ResponseEntity<UserDoc> createUser(UserDto userDto) {
+        Role role = roleRepository.findRoleById(userDto.getRoleId()).orElse(null);
+        if (role == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rol not found");
 
         User user = userRepository.findUserByEmailAddress(userDto.getEmailAddress()).orElse(null);
-        if(user != null){
+        if (user != null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "The email already exists");
-        }
 
         User data = User.builder()
                 .name(userDto.getName())
@@ -58,58 +69,41 @@ public class UserService {
                 .role(role)
                 .build();
         userRepository.save(data);
-
-        return UserDoc.builder()
-                .userId(data.getId())
-                .name(data.getName())
-                .lastName(data.getLastName())
-                .emailAddress(data.getEmailAddress())
-                .roleId(data.getRole().getId())
-                .role(data.getRole().getName())
-                .build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public UserDoc findById(Integer userId){
-        User user = userRepository.findById(userId).orElse(null);
-        if(user == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
 
-        return UserDoc.builder()
-                .userId(user.getId())
-                .name(user.getName())
-                .lastName(user.getLastName())
-                .role(user.getRole().getName())
-                .roleId(user.getRole().getId())
-                .emailAddress(user.getEmailAddress())
-                .build();
-    }
 
-    public UserDoc update(int userId, UpdateUserDto userDto){
-        User user = userRepository.findById(userId).orElse(null);
-        if(user == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
+
+        public ResponseEntity<UserDoc> updateUser(int userId, UserDto userDto) {
+            User user = userRepository.findUserById(userId).orElse(null);
+            if (user == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
 
         if(!userDto.getEmailAddress().equals(user.getEmailAddress())){
             User userResult = userRepository.findUserByEmailAddress(userDto.getEmailAddress()).orElse(null);
-            if(userResult != null){
+            if (userResult != null)
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "The email already exists");
-            }
         }
-
         user.setName(userDto.getName());
         user.setLastName(userDto.getLastName());
-        user.setEmailAddress(userDto.getEmailAddress());
         userRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-        return UserDoc.builder()
-                .userId(user.getId())
-                .name(user.getName())
-                .lastName(user.getLastName())
-                .emailAddress(user.getEmailAddress())
-                .role(user.getRole().getName())
-                .roleId(user.getRole().getId())
-                .build();
+    public boolean login(UserDto userDto) {
+        User user = userRepository.findUserByEmailAddress(userDto.getEmailAddress()).orElse(null);
+        if (!userDto.getEmailAddress().equals(user.getEmailAddress())) return false;
+        if (!userDto.getPassword().equals(user.getPassword())) return false;
+        return true;
+    }
+
+    public ResponseEntity<UserDoc> deleteUser(int userId) {
+        User user = userRepository.findUserById(userId).orElse(null);
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+        userRepository.delete(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
